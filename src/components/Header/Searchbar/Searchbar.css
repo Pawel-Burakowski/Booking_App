@@ -1,0 +1,18 @@
+.inputSearch {
+    width: calc(100% - 20px);
+    border-radius: 5px;
+    height: 25px;
+    border: 1px solid black
+}
+
+.search {
+    text-align: center
+}
+
+.buttonSearch {
+    margin-top: 10px;
+    height: 20px;
+    border: 0;
+    border-radius: 5px;
+}
+
