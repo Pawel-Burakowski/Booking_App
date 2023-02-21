@@ -1,9 +1,10 @@
 import React from "react";
+import "./Hotel.css"
 
 function Hotel() {
     return (
-        <div>
-            Pojedynczy Hotel
+        <div className="hotel">
+            hotel
         </div>
     )
 }
