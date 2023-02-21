@@ -1,5 +1,11 @@
 .hotel {
-    border: 1px solid #cdcdcd;
-    margin-bottom: 20px;
-    background-color: beige;
+    background-color: rgb(255, 255, 255);
+}
+
+.description {
+    font-size: 0.9rem;
+}
+
+.badge-ocena {
+    margin-left: 10px;
 }
