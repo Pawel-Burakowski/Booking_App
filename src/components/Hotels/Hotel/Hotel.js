@@ -1,8 +1,16 @@
 import React from "react"
+import PropTypes from "prop-types"
 import "./Hotel.css"
 import hotelImg from "../../../assets/images/hotel1.jpg"
 
-function Hotel() {
+const propTypes = {
+	name: PropTypes.string.isRequired,
+	city: PropTypes.string.isRequired,
+	rating: PropTypes.number.isRequired,
+	description: PropTypes.string.isRequired,
+}
+
+function Hotel(props) {
 	return (
 		<div className='card mb-3'>
 			<div className='card-body'>
@@ -18,15 +26,17 @@ function Hotel() {
 					<div className='col-8'>
 						<div className='row'>
 							<div className='col'>
-								<p className='h5 mb-4'>Willa Rauris by ALPS RESORTS</p>
+								<p className='h5 mb-4'>{props.name}</p>
 								<h5>
-									<span className='badge badge bg-secondary'>Rauris</span>
+									<span className='badge badge bg-secondary'>{props.city}</span>
 								</h5>
 							</div>
 							<div className='col'>
 								<p className=''>
 									Ocena użytkowników:
-									<span class='badge bg-primary badge-ocena'>8.3</span>
+									<span className='badge bg-primary badge-ocena'>
+										{props.rating}
+									</span>
 								</p>
 								<a href='#' className='btn btn-primary px-5'>
 									Pokaż
@@ -37,9 +47,7 @@ function Hotel() {
 
 					<div className='col-12'>
 						<p className='text-left mt-2 description mb-0'>
-							Obiekt Willa Rauris by ALPS RESORTS, położony w miejscowości
-							Rauris, oferuje restaurację oraz centrum spa i odnowy biologicznej
-							z krytym basenem, centrum fitness i sauną.
+							{props.description}
 						</p>
 					</div>
 				</div>
@@ -47,5 +55,7 @@ function Hotel() {
 		</div>
 	)
 }
+
+Hotel.propTypes = propTypes
 
 export default Hotel
