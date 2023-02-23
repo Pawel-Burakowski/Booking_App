@@ -38,7 +38,7 @@ function Hotel(props) {
 										{props.rating}
 									</span>
 								</p>
-								<a href='#' className='btn btn-primary px-5'>
+								<a href='#' className={`btn btn-${props.theme} px-5`}>
 									Pokaż
 								</a>
 							</div>

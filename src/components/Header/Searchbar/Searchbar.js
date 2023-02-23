@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import "./Searchbar.css"
 
@@ -24,6 +24,12 @@ function Searchbar(props) {
 		}
 	}
 
+	useEffect(() => {
+		console.log("wykonam się raz, bo pusta tablica []");
+		const input = document.querySelector('.search')
+		console.log(input.focus());
+	}, [] )
+
 	return (
 		<div className='row-12'>
 			<div className='d-flex justify-content-center'>
@@ -31,14 +37,14 @@ function Searchbar(props) {
 					value={value}
 					onChange={updateValue}
 					onKeyDown={onKeyDownHandler} /* Podpięcie search() pod Enter */
-					className='inputSearch'
+					className='inputSearch search'
 					type='text'
 					placeholder=' Znajdź hotel...'
 				/>
 			</div>
 
 			<div className='d-flex justify-content-center mt-2'>
-				<button onClick={search} type='button' className='btn btn-primary'>
+				<button onClick={search} type='button' className={`btn btn-${props.theme}`}>
 					Szukaj
 				</button>
 			</div>

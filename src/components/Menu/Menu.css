@@ -13,3 +13,7 @@
     border: 1px solid #cdcdcd;
     margin: 10px 0;
 }
+
+ul a {
+    text-decoration: none;
+}

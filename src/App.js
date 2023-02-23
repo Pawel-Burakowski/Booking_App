@@ -4,6 +4,11 @@ import Header from "./components/Header/Header"
 import Menu from "./components/Menu/Menu"
 import Hotels from "./components/Hotels/Hotels"
 import LoadingIcon from "./components/UI/LoadingIcon"
+import Searchbar from "./components/Header/Searchbar/Searchbar"
+import Layout from "./components/Layout/Layout"
+import Footer from "./components/Footer/Footer"
+import Button from "./components/UI/Button/Button"
+import AuthContext from "./context/authContext"
 
 class App extends Component {
 	hotels = [
@@ -30,6 +35,8 @@ class App extends Component {
 	state = {
 		hotels: [],
 		loading: true,
+		theme: "primary",
+		isAuthenticated: true
 	}
 
 	searchHandler(value) {
@@ -54,16 +61,39 @@ class App extends Component {
 		console.log("komponent zaktualizownay")
 	}
 
+	changeTheme = () => {
+		const newTheme = this.state.theme === "primary" ? "danger" : "primary"
+		this.setState({ theme: newTheme })
+	}
+
 	render() {
 		return (
 			<div className='App'>
-				<Header onSearch={value => this.searchHandler(value)} />
-				<Menu />
-				{this.state.loading ? (
-					<LoadingIcon />
-				) : (
-					<Hotels hotels={this.state.hotels} />
-				)}
+				<AuthContext.Provider value={{isAuthenticated: this.state.isAuthenticated,
+				login: () => this.setState({ isAuthenticated: true }),
+				logout: () => this.setState({ isAuthenticated: false }),
+				}}>
+					<Layout
+						header={
+							<Header>
+								<Searchbar
+									onSearch={value => this.searchHandler(value)}
+									theme={this.state.theme}
+								/>
+								<Button onChange={this.changeTheme} />
+							</Header>
+						}
+						menu={<Menu theme={this.state.theme} />}
+						content={
+							this.state.loading ? (
+								<LoadingIcon />
+							) : (
+								<Hotels hotels={this.state.hotels} theme={this.state.theme} />
+							)
+						}
+						footer={<Footer theme={this.state.theme} />}
+					/>
+				</AuthContext.Provider>
 			</div>
 		)
 	}
