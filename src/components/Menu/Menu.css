@@ -5,15 +5,14 @@
 }
 
 .menu-item {
-    display: inline-block;
-    text-align: left;
+    float: left;
 }
 
 .menuContainer {
-    border: 1px solid #cdcdcd;
     margin: 10px 0;
 }
 
 ul a {
     text-decoration: none;
+    padding: 50px;
 }

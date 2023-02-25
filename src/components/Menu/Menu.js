@@ -17,8 +17,8 @@ function Menu() {
 	}
 
 	return (
-		<div className='container menuContainer'>
-			<ul className='menu'>
+		<div className='menuContainer'>
+			<ul className='menu container'>
 				<li className='menu-item'>
 					<a href='#'>Home</a>
 				</li>
