@@ -11,6 +11,8 @@ import Button from "./components/UI/Button/Button"
 import BestHotel from "./components/Hotels/BestHotel/BestHotel"
 import InspiringQuote from "./components/InspiringQuote/InspiringQuote"
 import AuthContext from "./context/authContext"
+import LastHotel from "./components/Hotels/LastHotel/LastHotel"
+import useStateStorage from "./components/Hooks/useStateStorage"
 
 const backendtHotels = [
 	{
@@ -66,13 +68,14 @@ const reducer = (state, action) => {
 const initialState = {
 	hotels: [],
 	loading: true,
-	isAuthenticated: false,
+	isAuthenticated: true,
 	theme: "primary",
 }
 
 function App() {
 	/* const [theme, setTheme] = useState("primary") */
 	const [state, dispatch] = useReducer(reducer, initialState)
+	const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null)
 
 	const changeTheme = () => {
 		/* const newTheme = theme === "primary" ? "danger" : "primary" */
@@ -100,6 +103,14 @@ function App() {
 			[0]
 		}
 	}, [state.hotels])
+
+	const openHotel = (hotel) => {
+		setLastHotel(hotel)
+	}
+
+	const removeLastHotel = () => {
+		setLastHotel(null)
+	}
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -132,8 +143,9 @@ function App() {
 					? <LoadingIcon /> 
 					:
 					<div>
+						{lastHotel ? <LastHotel {...lastHotel} onRemove={removeLastHotel}/> : null}
 						<BestHotel getHotel={getBestHotel}/>
-						<Hotels hotels={state.hotels} theme={state.theme} />
+						<Hotels onOpen={openHotel} hotels={state.hotels} theme={state.theme} />
 					</div>
 				}
 				footer={<Footer theme={state.theme} />}

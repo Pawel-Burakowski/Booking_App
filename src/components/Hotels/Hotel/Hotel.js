@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import "./Hotel.css"
 import hotelImg from "../../../assets/images/hotel1.jpg"
+import useAuth from "../../Hooks/useAuth"
 
 const propTypes = {
 	name: PropTypes.string.isRequired,
@@ -11,6 +12,13 @@ const propTypes = {
 }
 
 function Hotel(props) {
+	const [auth] = useAuth()
+
+	const clickHandler = e => {
+		e.preventDefault()
+		props.onOpen(props)
+	}
+
 	return (
 		<div className='card mb-3'>
 			<div className='card-body'>
@@ -38,7 +46,7 @@ function Hotel(props) {
 										{props.rating}
 									</span>
 								</p>
-								<a href='#' className={`btn btn-${props.theme} px-5`}>
+								<a href='#' onClick={clickHandler} className={`btn btn-${props.theme} px-5`}>
 									Pokaż
 								</a>
 							</div>
@@ -49,6 +57,12 @@ function Hotel(props) {
 						<p className='text-left mt-2 description mb-0'>
 							{props.description}
 						</p>
+						
+						{auth 
+						? <p className="mt-2"> Dostępność: 4 pokoje </p>
+						: <p className="mt-2"> Dostępność: zaloguj </p> 
+						}
+						
 					</div>
 				</div>
 			</div>
