@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import "./Hotel.css"
 import hotelImg from "../../../assets/images/hotel1.jpg"
 import useAuth from "../../Hooks/useAuth"
+import { Link } from "react-router-dom"
 
 const propTypes = {
 	name: PropTypes.string.isRequired,
@@ -15,7 +16,7 @@ function Hotel(props) {
 	const [auth] = useAuth()
 
 	const clickHandler = e => {
-		e.preventDefault()
+		/* e.preventDefault() */
 		props.onOpen(props)
 	}
 
@@ -46,9 +47,11 @@ function Hotel(props) {
 										{props.rating}
 									</span>
 								</p>
-								<a href='#' onClick={clickHandler} className={`btn btn-${props.theme} px-5`}>
+								<Link to={`/hotel/${props.id}`} >
+								<a href="#" onClick={clickHandler} className={`btn btn-${props.theme} px-5`}>
 									Pokaż
-								</a>
+								</a>	
+								</Link>
 							</div>
 						</div>
 					</div>

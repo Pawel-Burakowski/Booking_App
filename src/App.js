@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 import "./App.css"
 import Header from "./components/Header/Header"
 import Menu from "./components/Menu/Menu"
-import Hotels from "./components/Hotels/Hotels"
-import LoadingIcon from "./components/UI/LoadingIcon"
 import Searchbar from "./components/Header/Searchbar/Searchbar"
 import Layout from "./components/Layout/Layout"
 import Footer from "./components/Footer/Footer"
 import Button from "./components/UI/Button/Button"
-import BestHotel from "./components/Hotels/BestHotel/BestHotel"
-import InspiringQuote from "./components/InspiringQuote/InspiringQuote"
 import AuthContext from "./context/authContext"
-import LastHotel from "./components/Hotels/LastHotel/LastHotel"
-import useStateStorage from "./components/Hooks/useStateStorage"
+import ReducerContext from "./context/reducerContext"
+import InspiringQuote from "./components/InspiringQuote/InspiringQuote"
+import { reducer, initialState} from "./Reducer"
+import Home from "./pages/Home/Home"
 
 const backendtHotels = [
 	{
@@ -35,47 +34,9 @@ const backendtHotels = [
 	},
 ]
 
-const reducer = (state, action) => {
-	switch (action.type) {
-		case "change-theme":
-			return {
-				...state, 
-				theme: state.theme === "danger" ? "primary" : "danger"
-			}
-
-		case "set-hotels":
-			return {
-				...state, hotels: action.hotels 
-			}
-
-		case "set-loading":
-			return {
-					...state, loading: action.loading 
-			}
-		case "login":
-			return {
-					...state, isAuthenticated: true
-				}
-		case "logout":
-			return {
-					...state, isAuthenticated: false
-				}
-		default:
-			return state
-	}
-}
-
-const initialState = {
-	hotels: [],
-	loading: true,
-	isAuthenticated: true,
-	theme: "primary",
-}
-
 function App() {
 	/* const [theme, setTheme] = useState("primary") */
 	const [state, dispatch] = useReducer(reducer, initialState)
-	const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null)
 
 	const changeTheme = () => {
 		/* const newTheme = theme === "primary" ? "danger" : "primary" */
@@ -93,64 +54,46 @@ function App() {
 		dispatch({ type: "set-hotels", hotels: newHotels })
 	}
 
-	const getBestHotel = useCallback (() => {
-		if (state.hotels.length < 2) {
-			return null
-		}
-		else {
-			return state.hotels.sort
-			((a, b) => a.rating > b.rating ? -1 : 1)
-			[0]
-		}
-	}, [state.hotels])
-
-	const openHotel = (hotel) => {
-		setLastHotel(hotel)
-	}
-
-	const removeLastHotel = () => {
-		setLastHotel(null)
-	}
-
-	useEffect(() => {
-		setTimeout(() => {
-			dispatch({ type: "set-hotels", hotels: backendtHotels })
-			dispatch({ type: "set-loading", loading: false })
-		}, 1000)
-		console.log("Komponent zamontowano")
-	}, [])
-
 	return (
-		<AuthContext.Provider
-			value={{
-				isAuthenticated: state.isAuthenticated,
-				login: () =>
-					dispatch({ type: "login" }),
-				logout: () =>
-					dispatch({ type: "logout" }),
-			}}>
-			<Layout
-				header={
-					<Header>
-						<InspiringQuote />
-						<Searchbar onSearch={value => searchHandler(value)} theme={state.theme} />
-						<Button onChange={changeTheme} />
-					</Header>
-				}
-				menu={<Menu theme={state} />}
-				content={
-					state.loading
-					? <LoadingIcon /> 
-					:
-					<div>
-						{lastHotel ? <LastHotel {...lastHotel} onRemove={removeLastHotel}/> : null}
-						<BestHotel getHotel={getBestHotel}/>
-						<Hotels onOpen={openHotel} hotels={state.hotels} theme={state.theme} />
-					</div>
-				}
-				footer={<Footer theme={state.theme} />}
-			/>
-		</AuthContext.Provider>
+		<Router>
+			<AuthContext.Provider
+				value={{
+					isAuthenticated: state.isAuthenticated,
+					login: () =>
+						dispatch({ type: "login" }),
+					logout: () =>
+						dispatch({ type: "logout" }),
+				}}>
+
+				<ReducerContext.Provider value={{
+					state: state,
+					dispatch: dispatch
+				}}>
+					<Layout
+						header={
+							<Header>
+								<InspiringQuote />
+								<Searchbar onSearch={value => searchHandler(value)} theme={state.theme} />
+								<Button onChange={changeTheme} />
+							</Header>
+						}
+						menu={<Menu theme={state} />}
+						content={
+							<div>
+								<Route exact={true} path="/">
+									<Home />
+								</Route>
+	
+								<Route path="/hotel/:id">
+									<h1> To jest jakiś hotel </h1>
+								</Route>
+							</div>
+						}
+						footer={<Footer theme={state.theme} />}
+					/>
+				</ReducerContext.Provider>
+			</AuthContext.Provider>
+		</Router>
 	)
 }
 

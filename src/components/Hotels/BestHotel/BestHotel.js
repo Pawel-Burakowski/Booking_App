@@ -24,7 +24,7 @@ const BestHotel = props => {
 	if (!hotel) return null
 
 	return (
-		<div className='card container'>
+		<div className='card container mt-4'>
 			<div className='card-body'>
 				<h6 className='card-header text-muted text-center'>
 					Najlepsza oferta!
