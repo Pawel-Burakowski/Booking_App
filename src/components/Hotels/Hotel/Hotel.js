@@ -47,7 +47,7 @@ function Hotel(props) {
 										{props.rating}
 									</span>
 								</p>
-								<Link to={`/hotel/${props.id}`} >
+								<Link to={`/hotele/${props.id}`} >
 								<a href="#" onClick={clickHandler} className={`btn btn-${props.theme} px-5`}>
 									Pokaż
 								</a>	

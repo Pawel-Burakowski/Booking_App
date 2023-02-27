@@ -49,6 +49,7 @@ export default function Home(props) {
 	}
 
     useEffect(() => {
+		reducer.dispatch({ type: "set-loading", loading: true })
 		setTimeout(() => {
 			reducer.dispatch({ type: "set-hotels", hotels: backendtHotels })
 			reducer.dispatch({ type: "set-loading", loading: false })
@@ -56,10 +57,7 @@ export default function Home(props) {
 		console.log("Komponent zamontowano")
 	}, [])
 
-    if (reducer.state.loading) {
-        return <LoadingIcon /> 
-    } 
-        
+	if (reducer.state.loading) return null
 
 	return (
 		<>
