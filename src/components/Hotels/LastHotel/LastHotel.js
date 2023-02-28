@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 function LastHotel(props) {
 
     const clickNoHandler = (e) => {
@@ -18,9 +20,9 @@ function LastHotel(props) {
 				<div
                 style={{width: "100px"}}
 					className='ml-auto d-flex justify-content-between'>
-					<button className='btn btn-sm btn-dark'>
+					<Link to={`hotele/${props.id}`} className='btn btn-sm btn-dark'>
 						Tak!
-					</button>
+					</Link>
 					<button onClick={props.onRemove} className='btn btn-sm btn-dark'>
 						Nie
 					</button>

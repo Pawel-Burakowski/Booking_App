@@ -17,6 +17,7 @@ import Search from "./pages/Search/Search"
 import NotFound from "./pages/404/404"
 import Login from "./pages/Auth/Login/Login"
 import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute"
+import ErrorBoundry from "./components/hoc/ErrorBoundry"
 const Profile = lazy(() => import ("./pages/Profile/Profile")) 
 
 function App() {
@@ -45,48 +46,50 @@ function App() {
 					state: state,
 					dispatch: dispatch
 				}}>
-					<Layout
-						header={
-							<Header>
-								<InspiringQuote />
-								<Searchbar theme={state.theme} />
-								<Button onChange={changeTheme} />
-							</Header>
-						}
-						menu={<Menu theme={state} />}
-						content={
-							<div>
-								<Suspense fallback={<p>Ładowanie...</p>}>
-									<Switch>
-											<AuthenticatedRoute path="/profil">
-												<Profile />
-											</AuthenticatedRoute>
-	
-										<Route path="/hotele/:id">
-											<Hotel />
-										</Route>
-	
-										<Route path="/wyszukaj/:value?">
-											<Search />
-										</Route>
-										
-										<Route path="/zaloguj">
-											<Login />
-										</Route>
-	
-										<Route exact={true} path="/">
-											<Home />
-										</Route>
-	
-										<Route>
-											<NotFound />
-										</Route>
-									</Switch>
-								</Suspense>
-							</div>
-						}
-						footer={<Footer theme={state.theme} />}
-					/>
+					<ErrorBoundry>
+						<Layout
+							header={
+								<Header>
+									<InspiringQuote />
+									<Searchbar theme={state.theme} />
+									<Button onChange={changeTheme} />
+								</Header>
+							}
+							menu={<Menu theme={state} />}
+							content={
+								<div>
+									<Suspense fallback={<p>Ładowanie...</p>}>
+										<Switch>
+												<AuthenticatedRoute path="/profil">
+													<Profile />
+												</AuthenticatedRoute>
+		
+											<Route path="/hotele/:id">
+												<Hotel />
+											</Route>
+		
+											<Route path="/wyszukaj/:value?">
+												<Search />
+											</Route>
+											
+											<Route path="/zaloguj">
+												<Login />
+											</Route>
+		
+											<Route exact={true} path="/">
+												<Home />
+											</Route>
+		
+											<Route>
+												<NotFound />
+											</Route>
+										</Switch>
+									</Suspense>
+								</div>
+							}
+							footer={<Footer theme={state.theme} />}
+						/>
+					</ErrorBoundry>
 				</ReducerContext.Provider>
 			</AuthContext.Provider>
 		</Router>
