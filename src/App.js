@@ -13,28 +13,8 @@ import InspiringQuote from "./components/InspiringQuote/InspiringQuote"
 import { reducer, initialState} from "./Reducer"
 import Home from "./pages/Home/Home"
 import Hotel from "./pages/Hotel/Hotel"
-import LoadingIcon from "./components/UI/LoadingIcon"
-
-const backendtHotels = [
-	{
-		id: 1,
-		name: "Willa Rauris by ALPS RESORTS",
-		city: "Rauris",
-		rating: 8.4,
-		description:
-			"Obiekt Willa Rauris by ALPS RESORTS, położony w miejscowości Rauris, oferuje restaurację oraz centrum spa i odnowy biologicznej z krytym basenem, centrum fitness i sauną.",
-		image: "",
-	},
-	{
-		id: 2,
-		name: "Wallackhaus Hotels",
-		city: "Unterhauer",
-		rating: 9.0,
-		description:
-			"Obiekt Wallackhaus Hotels położony jest na wysokości 2114 metrów nad poziomem morza w Parku Narodowym Wysokich Taurów, obok stoku narciarskiego Grossglockner/Heiligenblut.",
-		image: "",
-	},
-]
+import Search from "./pages/Search/Search"
+import Profile from "./pages/Profile/Profile"
 
 function App() {
 	/* const [theme, setTheme] = useState("primary") */
@@ -45,15 +25,6 @@ function App() {
 		/* this.setState({ theme: newTheme }) */
 		/* setTheme(newTheme) */
 		dispatch({ type: "change-theme" })
-	}
-
-	const searchHandler = value => {
-		console.log("szukaj z app", value)
-		const newHotels = [...backendtHotels].filter(x =>
-			x.name.toLowerCase().includes(value.toLowerCase())
-		)
-		/* setHotels(newHotels) */
-		dispatch({ type: "set-hotels", hotels: newHotels })
 	}
 
 	return (
@@ -75,7 +46,7 @@ function App() {
 						header={
 							<Header>
 								<InspiringQuote />
-								<Searchbar onSearch={value => searchHandler(value)} theme={state.theme} />
+								<Searchbar theme={state.theme} />
 								<Button onChange={changeTheme} />
 							</Header>
 						}
@@ -86,12 +57,19 @@ function App() {
 									<Route path="/hotele/:id">
 										<Hotel />
 									</Route>
+
+									<Route path="/wyszukaj/:value">
+										<Search />
+									</Route>
 									
+									<Route path="/profil">
+										<Profile />
+									</Route>
+
 									<Route exact={true} path="/">
 										<Home />
 									</Route>
 								</Switch>
-								{state.loading ? <LoadingIcon /> : null}
 							</div>
 						}
 						footer={<Footer theme={state.theme} />}

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react"
-import PropTypes from "prop-types"
 import "./Searchbar.css"
-
-const propTypes = {
-	onSearch: PropTypes.func.isRequired,
-}
+import { useHistory } from "react-router-dom"
 
 function Searchbar(props) {
 	const [value, setValue] = useState("")
+
+	const history = useHistory()
 
 	const updateValue = e => {
 		setValue(e.target.value)
@@ -15,7 +13,8 @@ function Searchbar(props) {
 
 	const search = () => {
 		console.log("szukaj, sprawdzam tylko działanie", value)
-		props.onSearch(value)
+		/* props.onSearch(value) */
+		history.push(`/wyszukaj/${value}`)
 	}
 
 	const onKeyDownHandler = e => {
@@ -51,7 +50,5 @@ function Searchbar(props) {
 		</div>
 	)
 }
-
-Searchbar.propTypes = propTypes
 
 export default Searchbar

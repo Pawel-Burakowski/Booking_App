@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useContext } from "react"
+import React, { useCallback, useEffect, useContext, useState } from "react"
 import LastHotel from "../../components/Hotels/LastHotel/LastHotel"
 import useStateStorage from "../../components/Hooks/useStateStorage"
 import BestHotel from "../../components/Hotels/BestHotel/BestHotel"
@@ -32,11 +32,14 @@ export default function Home(props) {
     const [lastHotel, setLastHotel] = useStateStorage("last-hotel", null)
     const reducer = useContext(ReducerContext)
 
+	const [loading, setLoading] = useState(true)
+	const [hotels, setHotels] = useState([])
+
 	const getBestHotel = useCallback(() => {
-		if (reducer.state.hotels.length < 2) {
+		if (hotels.length < 2) {
 			return null
 		} else {
-			return reducer.state.hotels.sort((a, b) => (a.rating > b.rating ? -1 : 1))[0]
+			return hotels.sort((a, b) => (a.rating > b.rating ? -1 : 1))[0]
 		}
 	})
 
@@ -49,23 +52,22 @@ export default function Home(props) {
 	}
 
     useEffect(() => {
-		reducer.dispatch({ type: "set-loading", loading: true })
+
 		setTimeout(() => {
-			reducer.dispatch({ type: "set-hotels", hotels: backendtHotels })
-			reducer.dispatch({ type: "set-loading", loading: false })
+			setHotels(backendtHotels)
+			setLoading(false)
 		}, 1000)
 		console.log("Komponent zamontowano")
 	}, [])
 
-	if (reducer.state.loading) return null
 
-	return (
+	return loading ? <LoadingIcon /> : (
 		<>
 			{lastHotel ? (
 				<LastHotel {...lastHotel} onRemove={removeLastHotel} />
 			) : null}
 			<BestHotel getHotel={getBestHotel} />
-			<Hotels onOpen={openHotel} hotels={reducer.state.hotels} theme={reducer.state.theme} />
+			<Hotels onOpen={openHotel} hotels={hotels} theme={reducer.state.theme} />
 		</>
 	)
 }
