@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useReducer, useState } from "react"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import React, { useReducer, lazy, Suspense } from "react"
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom"
 import "./App.css"
 import Header from "./components/Header/Header"
 import Menu from "./components/Menu/Menu"
@@ -14,8 +14,10 @@ import { reducer, initialState} from "./Reducer"
 import Home from "./pages/Home/Home"
 import Hotel from "./pages/Hotel/Hotel"
 import Search from "./pages/Search/Search"
-import Profile from "./pages/Profile/Profile"
 import NotFound from "./pages/404/404"
+import Login from "./pages/Auth/Login/Login"
+import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute"
+const Profile = lazy(() => import ("./pages/Profile/Profile")) 
 
 function App() {
 	/* const [theme, setTheme] = useState("primary") */
@@ -54,27 +56,33 @@ function App() {
 						menu={<Menu theme={state} />}
 						content={
 							<div>
-								<Switch>
-									<Route path="/hotele/:id">
-										<Hotel />
-									</Route>
-
-									<Route path="/wyszukaj/:value?">
-										<Search />
-									</Route>
-									
-									<Route path="/profil">
-										<Profile />
-									</Route>
-
-									<Route exact={true} path="/">
-										<Home />
-									</Route>
-
-									<Route>
-										<NotFound />
-									</Route>
-								</Switch>
+								<Suspense fallback={<p>Ładowanie...</p>}>
+									<Switch>
+											<AuthenticatedRoute path="/profil">
+												<Profile />
+											</AuthenticatedRoute>
+	
+										<Route path="/hotele/:id">
+											<Hotel />
+										</Route>
+	
+										<Route path="/wyszukaj/:value?">
+											<Search />
+										</Route>
+										
+										<Route path="/zaloguj">
+											<Login />
+										</Route>
+	
+										<Route exact={true} path="/">
+											<Home />
+										</Route>
+	
+										<Route>
+											<NotFound />
+										</Route>
+									</Switch>
+								</Suspense>
 							</div>
 						}
 						footer={<Footer theme={state.theme} />}
