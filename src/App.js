@@ -15,6 +15,7 @@ import Home from "./pages/Home/Home"
 import Hotel from "./pages/Hotel/Hotel"
 import Search from "./pages/Search/Search"
 import Profile from "./pages/Profile/Profile"
+import NotFound from "./pages/404/404"
 
 function App() {
 	/* const [theme, setTheme] = useState("primary") */
@@ -58,7 +59,7 @@ function App() {
 										<Hotel />
 									</Route>
 
-									<Route path="/wyszukaj/:value">
+									<Route path="/wyszukaj/:value?">
 										<Search />
 									</Route>
 									
@@ -68,6 +69,10 @@ function App() {
 
 									<Route exact={true} path="/">
 										<Home />
+									</Route>
+
+									<Route>
+										<NotFound />
 									</Route>
 								</Switch>
 							</div>
