@@ -16,6 +16,7 @@ import Hotel from "./pages/Hotel/Hotel"
 import Search from "./pages/Search/Search"
 import NotFound from "./pages/404/404"
 import Login from "./pages/Auth/Login/Login"
+import Register from "./pages/Auth/Login/Register/Register"
 import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute"
 import ErrorBoundry from "./components/hoc/ErrorBoundry"
 import AddHotel from "./pages/Profile/MyHotels/AddHotel/AddHotel"
@@ -79,6 +80,10 @@ function App() {
 											
 											<Route path="/zaloguj">
 												<Login />
+											</Route>
+
+											<Route path="/rejestracja">
+												<Register />
 											</Route>
 		
 											<Route exact={true} path="/">

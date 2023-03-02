@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
-import useStateStorage from "../../../../components/Hooks/useStateStorage"
 import LoadingButton from "../../../../components/UI/LoadingButton/LoadingButton"
+import Input from "../../../../components/Input/Input"
 
 const AddHotel = props => {
 
@@ -51,44 +51,26 @@ const AddHotel = props => {
 
 					<form>
 
-						<div className='form-group mb-3'>
-							<label> Nazwa </label>
-							<input
-                                value={form.name}
-                                onChange={e => setForm({...form, name: e.target.value })}
-								type='text'
-								className={`form-control ${false ? "is-invalid" : ``} `}
-							/>
-							<div className='invalid-feedback'>
-                                Błąd
-                            </div>
-						</div>
+                        <Input 
+                        label = "Nazwa"
+                        value={form.name}
+                        onChange={value => setForm({...form, name: value })}
+                        isValid={true}
+                        showError={false}   />
 
-                        <div className='form-group mb-3'>
-							<label> Opis </label>
-							<textarea
-                                value={form.description}
-                                onChange={e => setForm({...form, description: e.target.value })}
-								type='text'
-								className={`form-control ${false ? "is-invalid" : ``} `}
-							/>
-							<div className='invalid-feedback'>
-                                Błąd
-                            </div>
-						</div>
+                        <Input 
+                        label = "Opis"
+                        value={form.description}
+                        onChange={value => setForm({...form, description: value })}
+                        isValid={true}
+                        showError={false}   />
 
-						<div className='form-group  mb-3'>
-							<label> Miejscowość </label>
-							<input
-                                value={form.city}
-                                onChange={e => setForm({...form, city: e.target.value })}
-								type='text'
-								className={`form-control ${false ? "is-invalid" : ``} `}
-							/>
-							<div className='invalid-feedback'>
-                                Błąd
-                            </div>
-						</div>
+                        <Input 
+                        label = "Miejscowość"
+                        value={form.city}
+                        onChange={value => setForm({...form, city: value })}
+                        isValid={true}
+                        showError={false}   />
 
                         <div className='form-group  mb-3'>
 							<label> Ilość pokoi </label>
@@ -117,7 +99,7 @@ const AddHotel = props => {
                                 onChange={changeFeatureHandler}
                                 id="tv"
                                 />
-                                <label className="custom-control-label p-1" for="tv">TV</label>
+                                <label className="custom-control-label p-1" htmlfor="tv">TV</label>
                             </div>
 
                             <div className="custom-control custom-checkbox">
@@ -129,7 +111,7 @@ const AddHotel = props => {
                                 checked={form.features.find(x => x === "WiFi")}
                                 id="WiFi"
                                 />
-                                <label className="custom-control-label p-1" for="WiFi">WiFi</label>
+                                <label className="custom-control-label p-1" htmlfor="WiFi">WiFi</label>
                             </div>
 
                             <div className="custom-control custom-checkbox">
@@ -141,7 +123,7 @@ const AddHotel = props => {
                                 checked={form.features.find(x => x === "Parking")}
                                 id="Parking"
                                 />
-                                <label className="custom-control-label p-1 mb-3" for="Parking">Parking</label>
+                                <label className="custom-control-label p-1 mb-3" htmlfor="Parking">Parking</label>
                             </div>
 						</div>
                         
@@ -164,7 +146,7 @@ const AddHotel = props => {
                                 checked={form.status == 1}
                                 className="custom-control-input"
                                 />
-                                <label className="custom-control-label p-1" for="status-active">Dostępny</label>
+                                <label className="custom-control-label p-1" htmlfor="status-active">Dostępny</label>
                             </div>
 
                             <div className="custom-control custom-radio">
@@ -177,7 +159,7 @@ const AddHotel = props => {
                                 checked={form.status == 0}
                                 className="custom-control-input"
                                 />
-                                <label className="custom-control-label p-1" for="status-hide">Niedostępny</label>
+                                <label className="custom-control-label p-1" htmlfor="status-hide">Niedostępny</label>
                             </div>
                         </div>
 
@@ -198,3 +180,4 @@ const AddHotel = props => {
 }
 
 export default AddHotel
+ 
